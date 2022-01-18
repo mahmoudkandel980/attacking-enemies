@@ -79,8 +79,8 @@ addEventListener('click', (event) => {
     const color = 'white'
     const angle = Math.atan2(event.y - canvas.height / 2, event.x - canvas.width / 2)
     const velocity = {
-        x: Math.cos(angle) * 6,
-        y: Math.sin(angle) * 6
+        x: Math.cos(angle) * 8,
+        y: Math.sin(angle) * 8
     }
     projectEls.push(new ProjectEl(x, y, radius, color, velocity))
 })
@@ -95,10 +95,15 @@ class Enemies {
         this.velocity = velocity
     }
     draw() {
+        c.save()
+        c.globalAlpha = this.alpha
         c.beginPath()
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
+        c.shadowColor = this.color
+        c.shadowBlur = 10
         c.fillStyle = this.color
         c.fill()
+        c.restore()
     }
     update() {
         this.x -= this.velocity.x
@@ -122,8 +127,8 @@ function createEnimes() {
         const color = `hsl(${Math.random() * (360 - 1) + 1},70%,50%)`
         const angle = Math.atan2(y - canvas.height / 2, x - canvas.width / 2)
         const velocity = {
-            x: Math.cos(angle) * 1.5,
-            y: Math.sin(angle) * 1.5
+            x: Math.cos(angle) * 1,
+            y: Math.sin(angle) * 1
         }
 
         enemies.push(new Enemies(x, y, radius, color, velocity))
@@ -210,15 +215,6 @@ function animate() {
         projectEls.forEach((projectEl, projectElI) => {
             const dist = Math.hypot(enemy.x - projectEl.x, enemy.y - projectEl.y)
             if (dist < enemy.radius + projectEl.radius) {
-
-                // create particles
-                for (let i = 0; i < enemy.radius; i++) {
-                    particles.push(new Particles(enemy.x, enemy.y, Math.random() * 3, enemy.color, {
-                        x: Math.random() * (i / 2) - 0.5 * (i / 2),
-                        y: Math.random() * (i / 2) - 0.5 * (i / 2)
-                    }))
-                }
-
                 if (enemy.radius - 10 > 5) {
                     //increase scores
                     score += 10
