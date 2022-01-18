@@ -8,7 +8,12 @@ const buttonBtn = document.getElementById('start-btn')
 const modalEl = document.getElementById('modalEl')
 const gameScore = document.getElementById('gameScore')
 
+addEventListener('resize', () => {
+    canvas.width = innerWidth
+    canvas.height = innerHeight
 
+    init()
+})
 
 //player class
 class Player {
@@ -127,16 +132,16 @@ function createEnimes() {
         const color = `hsl(${Math.random() * (360 - 1) + 1},70%,50%)`
         const angle = Math.atan2(y - canvas.height / 2, x - canvas.width / 2)
         const velocity = {
-            x: Math.cos(angle) * 0.8,
-            y: Math.sin(angle) * 0.8
+            x: Math.cos(angle) * 0.6,
+            y: Math.sin(angle) * 0.6
         }
 
         enemies.push(new Enemies(x, y, radius, color, velocity))
-    }, 4000)
+    }, 6000)
 }
 
 //enimes particles
-let friction = 0.98;
+let friction = 0.99;
 class Particles {
     constructor(x, y, radius, color, velocity) {
         this.x = x
@@ -163,7 +168,7 @@ class Particles {
         this.velocity.y *= friction
         this.x += this.velocity.x
         this.y += this.velocity.y
-        this.alpha -= 0.01
+        this.alpha -= 0.03
         this.draw()
     }
 }
@@ -173,15 +178,17 @@ let score = 0
 let animationId;
 function animate() {
     animationId = requestAnimationFrame(animate)
-    c.fillStyle = 'rgba(0,0,0,0.3)'
+    c.fillStyle = 'rgba(0,0,0,0.4)'
     c.fillRect(0, 0, canvas.width, canvas.height)
 
     //enimes particles
     particles.forEach((particle, i) => {
-        if (particle.alpha <= 0) {
+        if (particle.alpha > 0) {
+            particle.update()
+        } else {
             particles.splice(i, 1)
         }
-        particle.update()
+        console.log(particles);
     });
 
     //attacking
@@ -216,7 +223,7 @@ function animate() {
 
                 // create particles
                 for (let i = 0; i < 10; i++) {
-                    particles.push(new Particles(enemy.x, enemy.y, Math.random() * 4, enemy.color, {
+                    particles.push(new Particles(enemy.x, enemy.y, Math.random() * 2, enemy.color, {
                         x: Math.random() * (i) - 0.5 * (i),
                         y: Math.random() * (i) - 0.5 * (i)
                     }))
