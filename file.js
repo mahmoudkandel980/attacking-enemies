@@ -164,7 +164,6 @@ class Particles {
         this.x += this.velocity.x
         this.y += this.velocity.y
         this.alpha -= 0.03
-        this.shadowBlur -= 0.01
         this.draw()
     }
 }
@@ -181,9 +180,8 @@ function animate() {
     particles.forEach((particle, i) => {
         if (particle.alpha <= 0) {
             particles.splice(i, 1)
-        } else {
-            particle.update()
         }
+        particle.update()
     });
 
     //attacking
@@ -217,10 +215,10 @@ function animate() {
             if (dist < enemy.radius + projectEl.radius) {
 
                 // create particles
-                for (let i = 0; i < enemy.radius; i++) {
-                    particles.push(new Particles(enemy.x, enemy.y, Math.random() * 3, enemy.color, {
-                        x: Math.random() * (i / 1.2) - 0.5 * (i / 1.2),
-                        y: Math.random() * (i / 1.2) - 0.5 * (i / 1.2)
+                for (let i = 0; i < 10; i++) {
+                    particles.push(new Particles(enemy.x, enemy.y, Math.random() * 4, enemy.color, {
+                        x: Math.random() * (i) - 0.5 * (i),
+                        y: Math.random() * (i) - 0.5 * (i)
                     }))
                 }
 
