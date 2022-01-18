@@ -79,8 +79,8 @@ addEventListener('click', (event) => {
     const color = 'white'
     const angle = Math.atan2(event.y - canvas.height / 2, event.x - canvas.width / 2)
     const velocity = {
-        x: Math.cos(angle) * 8,
-        y: Math.sin(angle) * 8
+        x: Math.cos(angle) * 9,
+        y: Math.sin(angle) * 9
     }
     projectEls.push(new ProjectEl(x, y, radius, color, velocity))
 })
@@ -100,7 +100,7 @@ class Enemies {
         c.beginPath()
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
         c.shadowColor = this.color
-        c.shadowBlur = 10
+        c.shadowBlur = 5
         c.fillStyle = this.color
         c.fill()
         c.restore()
@@ -127,12 +127,12 @@ function createEnimes() {
         const color = `hsl(${Math.random() * (360 - 1) + 1},70%,50%)`
         const angle = Math.atan2(y - canvas.height / 2, x - canvas.width / 2)
         const velocity = {
-            x: Math.cos(angle) * 1,
-            y: Math.sin(angle) * 1
+            x: Math.cos(angle) * 0.8,
+            y: Math.sin(angle) * 0.8
         }
 
         enemies.push(new Enemies(x, y, radius, color, velocity))
-    }, 2000)
+    }, 4000)
 }
 
 //enimes particles
@@ -163,8 +163,8 @@ class Particles {
         this.velocity.y *= friction
         this.x += this.velocity.x
         this.y += this.velocity.y
-        this.alpha -= 0.01
-        this.shadowBlur -= 0.001
+        this.alpha -= 0.03
+        this.shadowBlur -= 0.01
         this.draw()
     }
 }
@@ -215,6 +215,15 @@ function animate() {
         projectEls.forEach((projectEl, projectElI) => {
             const dist = Math.hypot(enemy.x - projectEl.x, enemy.y - projectEl.y)
             if (dist < enemy.radius + projectEl.radius) {
+
+                // create particles
+                for (let i = 0; i < enemy.radius; i++) {
+                    particles.push(new Particles(enemy.x, enemy.y, Math.random() * 3, enemy.color, {
+                        x: Math.random() * (i / 1.2) - 0.5 * (i / 1.2),
+                        y: Math.random() * (i / 1.2) - 0.5 * (i / 1.2)
+                    }))
+                }
+
                 if (enemy.radius - 10 > 5) {
                     //increase scores
                     score += 10
