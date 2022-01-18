@@ -268,7 +268,7 @@ function animate() {
 
                 // create particles of attackers
                 for (let i = 0; i < 5; i++) {
-                    particles.push(new AttakerParticles(projectEl.x, projectEl.y, Math.random() * 2, projectEl.color, {
+                    particles.push(new AttakerParticles(projectEl.x, projectEl.y, Math.random() * 3, projectEl.color, {
                         x: Math.random() * (i) - 0.5 * (i),
                         y: Math.random() * (i) - 0.5 * (i)
                     }))
