@@ -36,12 +36,14 @@ let player = new Player(x, y, 20, 'white')
 let projectEls = []
 let enemies = []
 let particles = []
+let attakerparticles = []
 
 function init() {
     player = new Player(x, y, 20, 'white')
     projectEls = []
     enemies = []
     particles = []
+    attakerparticles = []
     score = 0
     scoreEL.innerHTML = score
     gameScore.innerHTML = score
@@ -168,6 +170,38 @@ class Particles {
     }
 }
 
+class AttakerParticles {
+    constructor(x, y, radius, color, velocity) {
+        this.x = x
+        this.y = y
+        this.radius = radius
+        this.color = color
+        this.velocity = velocity
+        this.alpha = 1
+        this.shadowBlur = 30
+    }
+    draw() {
+        c.save()
+        c.globalAlpha = this.alpha
+        c.beginPath()
+        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
+        c.shadowColor = this.color
+        c.shadowBlur = this.shadowBlur
+        c.fillStyle = this.color
+        c.fill()
+        c.restore()
+    }
+    update() {
+        this.velocity.x *= friction
+        this.velocity.y *= friction
+        this.x += this.velocity.x
+        this.y += this.velocity.y
+        this.alpha -= 0.03
+        this.draw()
+    }
+}
+
+
 
 let score = 0
 let animationId;
@@ -183,7 +217,15 @@ function animate() {
         } else {
             particles.splice(i, 1)
         }
-        console.log(particles);
+    });
+
+    //attaker particles
+    attakerparticles.forEach((particle, i) => {
+        if (particle.alpha > 0) {
+            particle.update()
+        } else {
+            attakerparticles.splice(i, 1)
+        }
     });
 
     //attacking
@@ -216,11 +258,19 @@ function animate() {
             const dist = Math.hypot(enemy.x - projectEl.x, enemy.y - projectEl.y)
             if (dist < enemy.radius + projectEl.radius) {
 
-                // create particles
+                // create particles of enenmies
                 for (let i = 0; i < 10; i++) {
                     particles.push(new Particles(enemy.x, enemy.y, Math.random() * 3, enemy.color, {
                         x: Math.random() * (i / 2) - 0.5 * (i / 2),
                         y: Math.random() * (i / 2) - 0.5 * (i / 2)
+                    }))
+                }
+
+                // create particles of attackers
+                for (let i = 0; i < 5; i++) {
+                    particles.push(new AttakerParticles(projectEl.x, projectEl.y, Math.random() * 2, projectEl.color, {
+                        x: Math.random() * (i) - 0.5 * (i),
+                        y: Math.random() * (i) - 0.5 * (i)
                     }))
                 }
 
