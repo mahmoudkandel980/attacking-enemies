@@ -137,7 +137,7 @@ function createEnimes() {
         }
 
         enemies.push(new Enemies(x, y, radius, color, velocity))
-    }, 6000)
+    }, 4000)
 }
 
 //enimes particles
