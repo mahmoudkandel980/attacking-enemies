@@ -8,12 +8,7 @@ const buttonBtn = document.getElementById('start-btn')
 const modalEl = document.getElementById('modalEl')
 const gameScore = document.getElementById('gameScore')
 
-addEventListener('resize', () => {
-    canvas.width = innerWidth
-    canvas.height = innerHeight
 
-    init()
-})
 
 //player class
 class Player {
@@ -132,12 +127,12 @@ function createEnimes() {
         const color = `hsl(${Math.random() * (360 - 1) + 1},70%,50%)`
         const angle = Math.atan2(y - canvas.height / 2, x - canvas.width / 2)
         const velocity = {
-            x: Math.cos(angle) * 0.6,
-            y: Math.sin(angle) * 0.6
+            x: Math.cos(angle) * 1,
+            y: Math.sin(angle) * 1
         }
 
         enemies.push(new Enemies(x, y, radius, color, velocity))
-    }, 4000)
+    }, 3500)
 }
 
 //enimes particles
