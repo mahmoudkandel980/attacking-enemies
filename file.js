@@ -223,9 +223,9 @@ function animate() {
 
                 // create particles
                 for (let i = 0; i < 10; i++) {
-                    particles.push(new Particles(enemy.x, enemy.y, Math.random() * 2, enemy.color, {
-                        x: Math.random() * (i) - 0.5 * (i),
-                        y: Math.random() * (i) - 0.5 * (i)
+                    particles.push(new Particles(enemy.x, enemy.y, Math.random() * 3, enemy.color, {
+                        x: Math.random() * (i / 2) - 0.5 * (i / 2),
+                        y: Math.random() * (i / 2) - 0.5 * (i / 2)
                     }))
                 }
 
