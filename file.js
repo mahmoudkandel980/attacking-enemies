@@ -163,7 +163,7 @@ class Particles {
         this.velocity.y *= friction
         this.x += this.velocity.x
         this.y += this.velocity.y
-        this.alpha -= 0.03
+        this.alpha -= 0.01
         this.draw()
     }
 }
@@ -173,7 +173,7 @@ let score = 0
 let animationId;
 function animate() {
     animationId = requestAnimationFrame(animate)
-    c.fillStyle = 'rgba(0,0,0,0.1)'
+    c.fillStyle = 'rgba(0,0,0,0.3)'
     c.fillRect(0, 0, canvas.width, canvas.height)
 
     //enimes particles
